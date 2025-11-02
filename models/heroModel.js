@@ -9,10 +9,6 @@ exports.create = (data) => {
 }
 
 exports.getAll = () => {
-    const data = axios.get(`${API_URL}`)
-    data.map(hero => {
-        
-    })
     return heroList
 }
 
@@ -32,4 +28,17 @@ exports.delete = (id) => {
     if (index === -1) return false
     heroList.splice(index, 1)
     return true
+}
+
+exports.fetchHero = async (name) => {
+    const response = await axios.get(`${API_URL}`)
+    const data = response.data
+
+    return {
+        id: data.id,
+        name: data.name,
+        fullname: data.biography.fullName,
+        strength: data.powerstats.strength,
+        image: data.images.md
+    }
 }
