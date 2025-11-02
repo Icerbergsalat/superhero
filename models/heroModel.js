@@ -1,6 +1,7 @@
 let heroList = []
 let heroId = 1
 const API_URL = 'https://akabab.github.io/superhero-api/api/all.json'
+const axios = require('axios')
 
 exports.create = (data) => {
     const newHero = { id: heroId++, ...data }
