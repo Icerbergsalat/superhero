@@ -31,10 +31,17 @@ exports.delete = (id) => {
     return true
 }
 
-exports.fetchHero = async (name) => {
-    const response = await axios.get(`${API_URL}`)
-    const data = response.data
+exports.addFavorite = (data) => {
+    const favHero = { id: heroId++, ...data, favorite: true }
+    heroList.push(favHero)
+    return favHero
+}
 
+exports.getFavoriteHeroes = () => {
+    return heroList.filter(hero => hero.favorite)
+}
+
+exports.fetchHero = async () => {
     return {
         id: data.id,
         name: data.name,
@@ -42,4 +49,11 @@ exports.fetchHero = async (name) => {
         strength: data.powerstats.strength,
         image: data.images.md
     }
+}
+
+exports.getFromApi = async (id) => {
+    const response = await axios.get(`${API_URL}`)
+    const data = response.data
+
+    return data.find(hero => hero.id == id)
 }

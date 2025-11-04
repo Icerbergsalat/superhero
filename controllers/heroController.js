@@ -36,3 +36,24 @@ exports.deleteHero = (req, res) => {
     }
     res.status(200).send();
 }
+
+exports.favoriteHero = (req, res) => {
+    const favHero = heroModel.addFavorite(req.body);
+    res.status(201).json(favHero);
+}
+
+exports.getFavoriteHeroes = (req, res) => {
+    const allHeroes = heroModel.getAll();
+    const favoriteHeroes = allHeroes.filter(hero => hero.favorite);
+    res.status(200).json(favoriteHeroes);
+}
+
+exports.getHeroFromExternalApi = async (req, res) => {
+        const hero = await heroModel.getFromApi(req.params.id);
+
+        if (!hero) {
+            return res.status(404).json({ message: 'Hero not found in external API' });
+        }
+        res.status(200).json(hero);
+        res.status(500).json({ message: 'Error fetching hero from external API' });
+}
